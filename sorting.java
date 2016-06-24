@@ -57,6 +57,46 @@ public class sorting
         }
     }
 
+    public static void shell_sort(Comparable[] cont)
+    {
+            /*
+            Algorithm is consistent of 4 loops
+            1st loop - finds the highest switch value in this case 1,4,13 -- 13 is the highest
+            possible given the number of indices that are in existence
+            2nd loop - exit condition loop which stops at switch value of 1 which is always the lowest one
+            this loop is also responsible for decrementing the switch value by dividing by 3 so 13/3, 4/3
+            3rd loop - the magic happens here, decrementing loop by the switch value. If the corresponding
+            values are pass the less test, the values are switched and the loop decrements by the switch value
+            to test the previous in the switch value category (this means that the indices in the 4s and 13s are sorted
+            amongst themselves once something is switched in that category. If nothing is switched the category does not
+            need to be sorted amongst itself.
+             */
+
+            //set the hop to 1
+            int h = 1;
+
+            //in the while loop calculating the 1st hop space, it goes 13, 4, 1
+            //it is based on the size of the array that is being passed to the function
+            while (h < cont.length/3)
+            {
+                h = 3 * h + 1;
+            }
+
+            //perform the shell sort algorithm
+            while (h >= 1)
+            {
+                for (int i = h; i < cont.length; i++)
+                {
+                    for (int j = i; j >= h && less(cont[j], cont[j - h]); j -= h)
+                        exch(cont, j, j - h);
+                }
+
+                //go down to the next hop
+                h = h / 3;
+            }
+
+    }
+
     private static boolean less(Comparable v, Comparable w)
     { return v.compareTo(w) < 0; }
 
